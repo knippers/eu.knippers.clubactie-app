@@ -1,0 +1,60 @@
+{
+  "name": {
+    "en": "Loten Teller",
+    "nl": "Loten Teller"
+  },
+  "class": "other",
+  "capabilities": [
+    "loten_verkocht",
+    "loten_doel",
+    "loten_percentage"
+  ],
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "cloud"
+  ],
+  "images": {
+    "small": "/drivers/loten-teller/assets/small.png",
+    "large": "/drivers/loten-teller/assets/large.png"
+  },
+  "pair": [
+    {
+      "id": "login",
+      "template": "login",
+      "navigation": {
+        "next": null
+      }
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "Login",
+        "nl": "Inloggegevens"
+      },
+      "children": [
+        {
+          "id": "sellerId",
+          "type": "number",
+          "label": {
+            "en": "Club code",
+            "nl": "Clubcode"
+          },
+          "value": 0
+        },
+        {
+          "id": "loginCode",
+          "type": "text",
+          "label": {
+            "en": "My Clubactie code",
+            "nl": "Mijn Clubactie code"
+          },
+          "value": ""
+        }
+      ]
+    }
+  ]
+}

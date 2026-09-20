@@ -1,0 +1,50 @@
+{
+  "triggers": [
+    {
+      "id": "verkocht_gewijzigd",
+      "title": {
+        "en": "Sold amount changed",
+        "nl": "Verkocht aantal is gewijzigd"
+      },
+      "titleFormatted": {
+        "en": "Sold amount changed to [[verkocht]]",
+        "nl": "Verkocht aantal is gewijzigd naar [[verkocht]]"
+      },
+      "args": [],
+      "tokens": [
+        {
+          "name": "verkocht",
+          "type": "number",
+          "title": {
+            "en": "Sold",
+            "nl": "Verkocht"
+          }
+        },
+        {
+          "name": "doel",
+          "type": "number",
+          "title": {
+            "en": "Target",
+            "nl": "Doel"
+          }
+        },
+        {
+          "name": "percentage",
+          "type": "number",
+          "title": {
+            "en": "Percentage",
+            "nl": "Percentage"
+          }
+        },
+        {
+          "name": "vorige_waarde",
+          "type": "number",
+          "title": {
+            "en": "Previous value",
+            "nl": "Vorige waarde"
+          }
+        }
+      ]
+    }
+  ]
+}

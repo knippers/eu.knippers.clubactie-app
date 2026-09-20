@@ -1,0 +1,14 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Target",
+    "nl": "Doel"
+  },
+  "getable": true,
+  "setable": false,
+  "units": {
+    "en": "tickets",
+    "nl": "loten"
+  },
+  "icon": "/assets/icon.svg"
+}

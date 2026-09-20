@@ -1,0 +1,14 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Sold",
+    "nl": "Verkocht"
+  },
+  "getable": true,
+  "setable": false,
+  "units": {
+    "en": "tickets",
+    "nl": "loten"
+  },
+  "icon": "/assets/icon.svg"
+}

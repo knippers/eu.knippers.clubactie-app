@@ -1,0 +1,47 @@
+{
+  "id": "com.clubactie.lotenteller",
+  "version": "1.0.0",
+  "compatibility": ">=12.3.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Grote Clubactie - Loten Teller",
+    "nl": "Grote Clubactie - Loten Teller"
+  },
+  "description": {
+    "en": "See how you are doing with the Grote Clubactie",
+    "nl": "Bekijk hoe je er voor staat met de Grote Clubactie"
+  },
+  "category": [
+    "appliances"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png"
+  },
+  "author": {
+    "name": "Homey user"
+  },
+  "widgets": {
+    "loten-gauge": {
+      "name": {
+        "en": "Loten Gauge",
+        "nl": "Loten Meter"
+      },
+      "height": 200,
+      "devices": {
+        "type": "app",
+        "singular": true
+      },
+      "api": {
+        "getData": {
+          "method": "GET",
+          "path": "/widget-data"
+        }
+      }
+    }
+  }
+}
