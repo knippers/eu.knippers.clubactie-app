@@ -9,22 +9,23 @@
 </head>
 <body>
   <div class="homey-form-group">
-    <label class="homey-form-label" id="label-sellerId"></label>
+    <label class="homey-form-label" data-i18n="pair.sellerId_label"></label>
     <input class="homey-form-input" type="number" id="sellerId" />
   </div>
   <div class="homey-form-group">
-    <label class="homey-form-label" id="label-loginCode"></label>
+    <label class="homey-form-label" data-i18n="pair.loginCode_label"></label>
     <input class="homey-form-input" type="text" id="loginCode" />
   </div>
-  <button class="homey-button-primary-full" id="submit"></button>
+  <button class="homey-button-primary-full" id="submit" data-i18n="pair.submit"></button>
   <div class="error" id="error"></div>
 
-  <script type="text/javascript">
+  <script type="application/javascript">
     function onHomeyReady(Homey) {
-      Homey.setTitle(Homey.__('pair.title'));
-      document.getElementById('label-sellerId').textContent = Homey.__('pair.sellerId_label');
-      document.getElementById('label-loginCode').textContent = Homey.__('pair.loginCode_label');
-      document.getElementById('submit').textContent = Homey.__('pair.submit');
+      try {
+        Homey.setTitle(Homey.__('pair.title'));
+      } catch (e) {
+        // Titel is optioneel; blokkeer de rest van de pagina niet als dit faalt
+      }
 
       const errorEl = document.getElementById('error');
       const submitBtn = document.getElementById('submit');
