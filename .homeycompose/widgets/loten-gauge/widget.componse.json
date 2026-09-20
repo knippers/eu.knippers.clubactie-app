@@ -1,0 +1,19 @@
+{
+  "id": "loten-gauge",
+  "name": {
+    "en": "Loten Gauge",
+    "nl": "Loten Meter"
+  },
+  "height": 200,
+  "devices": {
+    "type": "app",
+    "singular": true
+  },
+  "settings": [],
+  "api": {
+    "getData": {
+      "method": "GET",
+      "path": "/widget-data"
+    }
+  }
+}

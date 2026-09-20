@@ -26,26 +26,6 @@
   "author": {
     "name": "Homey user"
   },
-  "widgets": {
-    "loten-gauge": {
-      "id": "loten-gauge",
-      "name": {
-        "en": "Loten Gauge",
-        "nl": "Loten Meter"
-      },
-      "height": 200,
-      "devices": {
-        "type": "app",
-        "singular": true
-      },
-      "api": {
-        "getData": {
-          "method": "GET",
-          "path": "/widget-data"
-        }
-      }
-    }
-  },
   "flow": {
     "triggers": [
       {
