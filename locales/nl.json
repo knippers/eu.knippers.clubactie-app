@@ -1,12 +1,13 @@
 {
-  "pair": {
-    "title": "Inloggen bij Grote Clubactie",
-    "sellerId_label": "Clubcode",
-    "loginCode_label": "Mijn Clubactie code",
-    "submit": "Doorgaan",
-    "missing_fields": "Vul zowel de clubcode als je Mijn Clubactie code in",
-    "device_name_prefix": "Loten Teller"
-  },
+"pair": {
+  "title": "Inloggen bij Grote Clubactie",
+  "sellerId_label": "Plak hier jouw verkooppagina link",
+  "loginCode_label": "Plak hier je persoonlijke unieke code",
+  "submit": "Doorgaan",
+  "missing_fields": "Vul zowel de verkooppagina link als je persoonlijke code in",
+  "invalid_url": "Kon geen clubcode uit deze link halen. Controleer of je de juiste verkooppagina-link hebt geplakt.",
+  "device_name_prefix": "Loten Teller"
+},
   "widget": {
     "no_device": "Nog geen Loten Teller apparaat gevonden",
     "tickets": "loten",

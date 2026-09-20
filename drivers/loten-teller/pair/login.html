@@ -5,12 +5,13 @@
   <style>
     body { padding: 16px; }
     .error { color: #E63929; margin-top: 8px; display: none; }
+    .hint { color: var(--homey-text-color-light, #888); font-size: 12px; margin-top: 4px; }
   </style>
 </head>
 <body>
   <div class="homey-form-group">
     <label class="homey-form-label" data-i18n="pair.sellerId_label"></label>
-    <input class="homey-form-input" type="number" id="sellerId" />
+    <input class="homey-form-input" type="text" id="salesPageUrl" placeholder="https://lot.clubactie.nl/..." />
   </div>
   <div class="homey-form-group">
     <label class="homey-form-label" data-i18n="pair.loginCode_label"></label>
@@ -20,37 +21,58 @@
   <div class="error" id="error"></div>
 
   <script type="application/javascript">
+    function extractSellerId(rawUrl) {
+      try {
+        const url = new URL(rawUrl.trim());
+        const segments = url.pathname.split('/').filter(Boolean);
+        const numeric = segments.find((segment) => /^\d+$/.test(segment));
+        return numeric || null;
+      } catch (e) {
+        const trimmed = rawUrl.trim();
+        return /^\d+$/.test(trimmed) ? trimmed : null;
+      }
+    }
+
     function onHomeyReady(Homey) {
       try {
         Homey.setTitle(Homey.__('pair.title'));
-      } catch (e) {
-        // Titel is optioneel; blokkeer de rest van de pagina niet als dit faalt
-      }
+      } catch (e) {}
 
       const errorEl = document.getElementById('error');
       const submitBtn = document.getElementById('submit');
 
       submitBtn.addEventListener('click', async () => {
         errorEl.style.display = 'none';
-        const sellerId = document.getElementById('sellerId').value.trim();
+
+        const salesPageUrl = document.getElementById('salesPageUrl').value.trim();
         const loginCode = document.getElementById('loginCode').value.trim();
 
-        if (!sellerId || !loginCode) {
+        if (!salesPageUrl || !loginCode) {
           errorEl.textContent = Homey.__('pair.missing_fields');
           errorEl.style.display = 'block';
           return;
         }
 
+        const sellerId = extractSellerId(salesPageUrl);
+        if (!sellerId) {
+          errorEl.textContent = Homey.__('pair.invalid_url');
+          errorEl.style.display = 'block';
+          return;
+        }
+
         submitBtn.disabled = true;
+        Homey.showLoadingOverlay();
         try {
           const device = await Homey.emit('login', { sellerId, loginCode });
           await Homey.createDevice(device);
           Homey.done();
         } catch (err) {
+          console.error('Clubactie login error:', err);
           errorEl.textContent = (err && err.message) ? err.message : String(err);
           errorEl.style.display = 'block';
         } finally {
           submitBtn.disabled = false;
+          Homey.hideLoadingOverlay();
         }
       });
 

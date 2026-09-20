@@ -1,12 +1,13 @@
 {
-  "pair": {
-    "title": "Log in to Grote Clubactie",
-    "sellerId_label": "Club code",
-    "loginCode_label": "My Clubactie code",
-    "submit": "Continue",
-    "missing_fields": "Please fill in both the club code and My Clubactie code",
-    "device_name_prefix": "Loten Teller"
-  },
+"pair": {
+  "title": "Log in to Grote Clubactie",
+  "sellerId_label": "Paste your sales page link here",
+  "loginCode_label": "Paste your personal unique code here",
+  "submit": "Continue",
+  "missing_fields": "Please fill in both the sales page link and your personal code",
+  "invalid_url": "Could not find a club code in this link. Please check that you pasted the correct sales page link.",
+  "device_name_prefix": "Loten Teller"
+},
   "widget": {
     "no_device": "No Loten Teller device found yet",
     "tickets": "tickets",
