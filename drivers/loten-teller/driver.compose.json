@@ -21,8 +21,7 @@
   },
   "pair": [
     {
-      "id": "login",
-      "template": "login"
+      "id": "login"
     }
   ],
   "settings": [

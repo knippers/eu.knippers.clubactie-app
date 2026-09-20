@@ -106,8 +106,7 @@
       },
       "pair": [
         {
-          "id": "login",
-          "template": "login"
+          "id": "login"
         }
       ],
       "settings": [
@@ -142,6 +141,27 @@
       "id": "loten-teller"
     }
   ],
+  "widgets": {
+    "loten-gauge": {
+      "id": "loten-gauge",
+      "name": {
+        "en": "Loten Gauge",
+        "nl": "Loten Meter"
+      },
+      "height": 200,
+      "devices": {
+        "type": "app",
+        "singular": true
+      },
+      "settings": [],
+      "api": {
+        "getData": {
+          "method": "GET",
+          "path": "/widget-data"
+        }
+      }
+    }
+  },
   "capabilities": {
     "loten_doel": {
       "type": "number",
