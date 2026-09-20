@@ -1,0 +1,25 @@
+{
+  "pair": {
+    "title": "Log in to Grote Clubactie",
+    "sellerId_label": "Club code",
+    "loginCode_label": "My Clubactie code",
+    "submit": "Continue",
+    "missing_fields": "Please fill in both the club code and My Clubactie code",
+    "device_name_prefix": "Loten Teller"
+  },
+  "widget": {
+    "no_device": "No Loten Teller device found yet",
+    "tickets": "tickets",
+    "error": "Could not load data"
+  },
+  "settings": {
+    "title": "Grote Clubactie - Loten Teller",
+    "intro": "Enter your club code and My Clubactie code here to update the credentials of your Loten Teller device.",
+    "sellerId_label": "Club code",
+    "loginCode_label": "My Clubactie code",
+    "save": "Save",
+    "saved": "Saved! Refreshing your data...",
+    "no_device": "No Loten Teller device found yet. Add one first via Devices > Add device > Loten Teller, then come back here to edit the credentials.",
+    "error": "Something went wrong while saving"
+  }
+}

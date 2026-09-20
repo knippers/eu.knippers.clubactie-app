@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: transparent;
+      color: var(--homey-text-color, #1a1a1a);
+    }
+    .wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 16px;
+    }
+    .gauge-value {
+      font-size: 22px;
+      font-weight: 700;
+      fill: var(--homey-text-color, #1a1a1a);
+    }
+    .gauge-sub {
+      font-size: 11px;
+      fill: var(--homey-text-color-light, #888);
+    }
+    .info {
+      display: flex;
+      flex-direction: column;
+    }
+    .info .name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .info .stats {
+      font-size: 12px;
+      color: var(--homey-text-color-light, #888);
+    }
+    .empty {
+      font-size: 13px;
+      color: var(--homey-text-color-light, #888);
+      text-align: center;
+      padding: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="content">
+    <div class="empty" id="empty" style="display:none;"></div>
+  </div>
+
+  <script type="text/javascript">
+    let labels = {};
+    let deviceId = null;
+
+    function drawGauge(percentage) {
+      const size = 120;
+      const strokeWidth = 12;
+      const radius = (size - strokeWidth) / 2;
+      const circumference = 2 * Math.PI * radius;
+      const clamped = Math.max(0, Math.min(100, percentage));
+      const offset = circumference * (1 - clamped / 100);
+      const center = size / 2;
+
+      return `
+        <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+          <circle cx="${center}" cy="${center}" r="${radius}" fill="none"
+                  stroke="rgba(128,128,128,0.2)" stroke-width="${strokeWidth}" />
+          <circle cx="${center}" cy="${center}" r="${radius}" fill="none"
+                  stroke="#E63929" stroke-width="${strokeWidth}"
+                  stroke-linecap="round"
+                  stroke-dasharray="${circumference}"
+                  stroke-dashoffset="${offset}"
+                  transform="rotate(-90 ${center} ${center})" />
+          <text x="${center}" y="${center - 2}" text-anchor="middle" class="gauge-value">${clamped}%</text>
+        </svg>
+      `;
+    }
+
+    async function render() {
+      const contentEl = document.getElementById('content');
+      try {
+        const path = deviceId ? `/widget-data?deviceId=${encodeURIComponent(deviceId)}` : '/widget-data';
+        const data = await Homey.api('GET', path);
+
+        if (!data || !data.hasDevice) {
+          contentEl.innerHTML = `<div class="empty">${labels.no_device}</div>`;
+          return;
+        }
+
+        const { naam, verkocht, doel, percentage } = data;
+
+        contentEl.innerHTML = `
+          ${drawGauge(percentage)}
+          <div class="info">
+            <div class="name">${naam}</div>
+            <div class="stats">${verkocht} / ${doel} ${labels.tickets}</div>
+          </div>
+        `;
+      } catch (err) {
+        contentEl.innerHTML = `<div class="empty">${labels.error}</div>`;
+      }
+    }
+
+    function onHomeyReady(homey) {
+      window.Homey = homey;
+      labels = {
+        no_device: homey.__('widget.no_device'),
+        tickets: homey.__('widget.tickets'),
+        error: homey.__('widget.error'),
+      };
+
+      // Welke club is gekozen in de widget-instellingen (zie app.json ->
+      // widgets.loten-gauge.devices, met singular: true). Officiële,
+      // synchrone Homey Widget SDK methode hiervoor: Homey.getDeviceIds().
+      // https://apps.developer.homey.app/the-basics/widgets/settings#devices
+      const deviceIds = homey.getDeviceIds();
+      deviceId = deviceIds && deviceIds.length > 0 ? deviceIds[0] : null;
+
+      render();
+      setInterval(render, 60 * 1000);
+
+      homey.ready();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "pair": {
+    "title": "Inloggen bij Grote Clubactie",
+    "sellerId_label": "Clubcode",
+    "loginCode_label": "Mijn Clubactie code",
+    "submit": "Doorgaan",
+    "missing_fields": "Vul zowel de clubcode als je Mijn Clubactie code in",
+    "device_name_prefix": "Loten Teller"
+  },
+  "widget": {
+    "no_device": "Nog geen Loten Teller apparaat gevonden",
+    "tickets": "loten",
+    "error": "Kon gegevens niet laden"
+  },
+  "settings": {
+    "title": "Grote Clubactie - Loten Teller",
+    "intro": "Vul hier je clubcode en Mijn Clubactie code in om de gegevens van je Loten Teller apparaat bij te werken.",
+    "sellerId_label": "Clubcode",
+    "loginCode_label": "Mijn Clubactie code",
+    "save": "Opslaan",
+    "saved": "Opgeslagen! Gegevens worden ververst...",
+    "no_device": "Nog geen Loten Teller apparaat gevonden. Voeg er eerst een toe via Apparaten > Apparaat toevoegen > Loten Teller, en kom daarna hier terug om de gegevens te wijzigen.",
+    "error": "Er ging iets mis bij het opslaan"
+  }
+}
