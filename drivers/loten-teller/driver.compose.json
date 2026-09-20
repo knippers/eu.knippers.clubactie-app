@@ -22,10 +22,7 @@
   "pair": [
     {
       "id": "login",
-      "template": "login",
-      "navigation": {
-        "next": null
-      }
+      "template": "login"
     }
   ],
   "settings": [

@@ -28,6 +28,7 @@
   },
   "widgets": {
     "loten-gauge": {
+      "id": "loten-gauge",
       "name": {
         "en": "Loten Gauge",
         "nl": "Loten Meter"
@@ -126,10 +127,7 @@
       "pair": [
         {
           "id": "login",
-          "template": "login",
-          "navigation": {
-            "next": null
-          }
+          "template": "login"
         }
       ],
       "settings": [

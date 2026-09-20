@@ -27,6 +27,7 @@
   },
   "widgets": {
     "loten-gauge": {
+      "id": "loten-gauge",
       "name": {
         "en": "Loten Gauge",
         "nl": "Loten Meter"
