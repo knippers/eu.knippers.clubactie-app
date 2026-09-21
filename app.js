@@ -22,13 +22,30 @@ module.exports = class ClubactieApp extends Homey.App {
 
     let device = null;
     if (deviceId) {
+      // Probeer eerst te matchen op onze eigen custom data.id (clubactie-<sellerId>)
       device = devices.find((d) => d.getData().id === deviceId) || null;
+
+      // Val terug op Homey's eigen systeembrede device-id, voor het geval
+      // getDeviceIds() in de widget een ander soort ID teruggeeft dan onze
+      // eigen data.id.
+      if (!device) {
+        device = devices.find((d) => d.id === deviceId) || null;
+      }
     } else {
       device = devices[0] || null;
     }
 
     if (!device) {
-      return { hasDevice: false };
+      // Tijdelijke debug-info zodat we het exacte verschil kunnen zien
+      // i.p.v. alleen "niet gevonden".
+      return {
+        hasDevice: false,
+        debug: {
+          requestedDeviceId: deviceId || null,
+          availableDataIds: devices.map((d) => d.getData().id),
+          availableHomeyIds: devices.map((d) => d.id),
+        },
+      };
     }
 
     return {

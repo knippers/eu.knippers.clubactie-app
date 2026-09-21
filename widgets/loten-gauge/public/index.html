@@ -86,7 +86,8 @@
         const data = await Homey.api('GET', path);
 
         if (!data || !data.hasDevice) {
-          contentEl.innerHTML = `<div class="empty">${labels.no_device}</div>`;
+          const debugInfo = data && data.debug ? '<br><br><small style="font-family:monospace;font-size:10px;word-break:break-all;">' + JSON.stringify(data.debug) + '</small>' : '';
+          contentEl.innerHTML = `<div class="empty">${labels.no_device}${debugInfo}</div>`;
           // Sneller opnieuw proberen zolang er nog geen device gevonden is
           // (bv. vlak na het toevoegen van een device kan dit nog niet
           // meteen doorkomen).
