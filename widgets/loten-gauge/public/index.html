@@ -17,17 +17,13 @@
     .wrap {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 8px 16px;
+      gap: 10px;
+      padding: 4px 10px;
     }
     .gauge-value {
-      font-size: 22px;
+      font-size: 15px;
       font-weight: 700;
       fill: var(--homey-text-color, #1a1a1a);
-    }
-    .gauge-sub {
-      font-size: 11px;
-      fill: var(--homey-text-color-light, #888);
     }
     .info {
       display: flex;
@@ -35,18 +31,18 @@
     }
     .info .name {
       font-weight: 600;
-      font-size: 14px;
-      margin-bottom: 4px;
+      font-size: 12px;
+      margin-bottom: 2px;
     }
     .info .stats {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--homey-text-color-light, #888);
     }
     .empty {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--homey-text-color-light, #888);
       text-align: center;
-      padding: 12px;
+      padding: 8px;
     }
   </style>
 </head>
@@ -60,8 +56,8 @@
     let deviceId = null;
 
     function drawGauge(percentage) {
-      const size = 120;
-      const strokeWidth = 12;
+      const size = 72;
+      const strokeWidth = 8;
       const radius = (size - strokeWidth) / 2;
       const circumference = 2 * Math.PI * radius;
       const clamped = Math.max(0, Math.min(100, percentage));
@@ -78,7 +74,7 @@
                   stroke-dasharray="${circumference}"
                   stroke-dashoffset="${offset}"
                   transform="rotate(-90 ${center} ${center})" />
-          <text x="${center}" y="${center - 2}" text-anchor="middle" class="gauge-value">${clamped}%</text>
+          <text x="${center}" y="${center + 1}" text-anchor="middle" dominant-baseline="middle" class="gauge-value">${clamped}%</text>
         </svg>
       `;
     }
@@ -91,6 +87,10 @@
 
         if (!data || !data.hasDevice) {
           contentEl.innerHTML = `<div class="empty">${labels.no_device}</div>`;
+          // Sneller opnieuw proberen zolang er nog geen device gevonden is
+          // (bv. vlak na het toevoegen van een device kan dit nog niet
+          // meteen doorkomen).
+          setTimeout(render, 5 * 1000);
           return;
         }
 
@@ -103,8 +103,10 @@
             <div class="stats">${verkocht} / ${doel} ${labels.tickets}</div>
           </div>
         `;
+        setTimeout(render, 60 * 1000);
       } catch (err) {
         contentEl.innerHTML = `<div class="empty">${labels.error}</div>`;
+        setTimeout(render, 15 * 1000);
       }
     }
 
@@ -116,15 +118,10 @@
         error: homey.__('widget.error'),
       };
 
-      // Welke club is gekozen in de widget-instellingen (zie app.json ->
-      // widgets.loten-gauge.devices, met singular: true). Officiële,
-      // synchrone Homey Widget SDK methode hiervoor: Homey.getDeviceIds().
-      // https://apps.developer.homey.app/the-basics/widgets/settings#devices
       const deviceIds = homey.getDeviceIds();
       deviceId = deviceIds && deviceIds.length > 0 ? deviceIds[0] : null;
 
       render();
-      setInterval(render, 60 * 1000);
 
       homey.ready();
     }

@@ -4,8 +4,7 @@
   <meta charset="utf-8" />
   <style>
     body { padding: 16px; }
-    .error { color: #E63929; margin-top: 8px; display: none; }
-    .hint { color: var(--homey-text-color-light, #888); font-size: 12px; margin-top: 4px; }
+    .error { color: #E63929; margin-top: 8px; display: none; white-space: pre-wrap; }
   </style>
 </head>
 <body>
@@ -33,10 +32,21 @@
       }
     }
 
-    function onHomeyReady(Homey) {
+    // Workaround voor een bekende Homey-firmwarebug waarbij de officiele
+    // onHomeyReady(Homey) callback soms nooit wordt aangeroepen, terwijl
+    // window.Homey wel degelijk beschikbaar komt. We initialiseren daarom via
+    // welke route ook het eerst beschikbaar is, met een guard tegen dubbel init.
+    var __initialized = false;
+
+    function initPairView(Homey) {
+      if (__initialized) return;
+      __initialized = true;
+
       try {
         Homey.setTitle(Homey.__('pair.title'));
-      } catch (e) {}
+      } catch (e) {
+        // titel is optioneel
+      }
 
       const errorEl = document.getElementById('error');
       const submitBtn = document.getElementById('submit');
@@ -61,23 +71,38 @@
         }
 
         submitBtn.disabled = true;
-        Homey.showLoadingOverlay();
+        try { Homey.showLoadingOverlay(); } catch (e) {}
+
         try {
           const device = await Homey.emit('login', { sellerId, loginCode });
           await Homey.createDevice(device);
           Homey.done();
         } catch (err) {
-          console.error('Clubactie login error:', err);
           errorEl.textContent = (err && err.message) ? err.message : String(err);
           errorEl.style.display = 'block';
         } finally {
           submitBtn.disabled = false;
-          Homey.hideLoadingOverlay();
+          try { Homey.hideLoadingOverlay(); } catch (e) {}
         }
       });
 
       Homey.ready();
     }
+
+    function onHomeyReady(Homey) {
+      initPairView(Homey);
+    }
+
+    var pollAttempts = 0;
+    var pollInterval = setInterval(function () {
+      pollAttempts++;
+      if (window.Homey) {
+        clearInterval(pollInterval);
+        initPairView(window.Homey);
+      } else if (pollAttempts >= 100) {
+        clearInterval(pollInterval);
+      }
+    }, 100);
   </script>
 </body>
 </html>

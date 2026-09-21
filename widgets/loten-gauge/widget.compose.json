@@ -4,7 +4,7 @@
     "en": "Loten Gauge",
     "nl": "Loten Meter"
   },
-  "height": 200,
+  "height": 120,
   "devices": {
     "type": "app",
     "singular": true
