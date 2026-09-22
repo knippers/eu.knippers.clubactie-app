@@ -63,13 +63,14 @@
       const clamped = Math.max(0, Math.min(100, percentage));
       const offset = circumference * (1 - clamped / 100);
       const center = size / 2;
+      const color = clamped >= 100 ? '#27AE60' : '#C0392B';
 
       return `
         <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
           <circle cx="${center}" cy="${center}" r="${radius}" fill="none"
                   stroke="rgba(128,128,128,0.2)" stroke-width="${strokeWidth}" />
           <circle cx="${center}" cy="${center}" r="${radius}" fill="none"
-                  stroke="#E63929" stroke-width="${strokeWidth}"
+                  stroke="${color}" stroke-width="${strokeWidth}"
                   stroke-linecap="round"
                   stroke-dasharray="${circumference}"
                   stroke-dashoffset="${offset}"
