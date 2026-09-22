@@ -10,8 +10,9 @@ module.exports = class ClubactieApp extends Homey.App {
 
     try {
       this.homeyApi = await HomeyAPI.createAppAPI({ homey: this.homey });
+      this.log('[widget-debug] HomeyAPI succesvol geinitialiseerd');
     } catch (err) {
-      this.error('Kon HomeyAPI niet initialiseren (widget device-matching werkt dan mogelijk niet):', err.message);
+      this.error('[widget-debug] Kon HomeyAPI niet initialiseren:', err.message);
     }
   }
 
@@ -27,29 +28,45 @@ module.exports = class ClubactieApp extends Homey.App {
    * terug op het eerste loten-teller apparaat.
    */
   async getWidgetData(deviceId) {
+    this.log('[widget-debug] getWidgetData aangeroepen met deviceId=', deviceId);
+
     const driver = this.homey.drivers.getDriver('loten-teller');
     const devices = driver.getDevices();
+    this.log('[widget-debug] eigen devices (data.id):', devices.map((d) => d.getData().id));
 
     let device = null;
 
     if (deviceId && this.homeyApi) {
       try {
         const webApiDevice = await this.homeyApi.devices.getDevice({ id: deviceId });
+        this.log('[widget-debug] webApiDevice gevonden:', webApiDevice ? {
+          name: webApiDevice.name,
+          data: webApiDevice.data,
+        } : null);
+
         if (webApiDevice && webApiDevice.data && webApiDevice.data.id) {
           device = devices.find((d) => d.getData().id === webApiDevice.data.id) || null;
+          this.log('[widget-debug] match op data.id=', webApiDevice.data.id, '-> gevonden:', !!device);
+        } else {
+          this.log('[widget-debug] webApiDevice.data.id ontbreekt, kan niet matchen');
         }
       } catch (err) {
-        this.error('Kon device niet opzoeken via HomeyAPI:', err.message);
+        this.error('[widget-debug] Kon device niet opzoeken via HomeyAPI:', err.message);
       }
+    } else if (deviceId && !this.homeyApi) {
+      this.log('[widget-debug] deviceId aanwezig maar this.homeyApi is niet beschikbaar');
     }
 
     if (!device) {
+      this.log('[widget-debug] geen match, val terug op devices[0]');
       device = devices[0] || null;
     }
 
     if (!device) {
       return { hasDevice: false };
     }
+
+    this.log('[widget-debug] uiteindelijk gebruikt device:', device.getName());
 
     return {
       hasDevice: true,
