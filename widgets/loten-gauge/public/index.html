@@ -57,13 +57,13 @@
 
     function drawGauge(percentage) {
       const size = 82;
-      const strokeWidth = 9;
+      const strokeWidth = 11;
       const radius = (size - strokeWidth) / 2;
       const circumference = 2 * Math.PI * radius;
       const clamped = Math.max(0, Math.min(100, percentage));
       const offset = circumference * (1 - clamped / 100);
       const center = size / 2;
-      const color = clamped >= 100 ? '#27AE60' : '#C0392B';
+      const color = clamped >= 100 ? '#27AE60' : '#d79926';
 
       return `
         <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
