@@ -3,3 +3,6 @@
 
 # Added by Homey CLI
 /.homeybuild/
+
+node_modules/
+package-lock.json

@@ -2,5 +2,8 @@
   "name": "com.clubactie.lotenteller",
   "version": "1.0.0",
   "private": true,
-  "main": "app.js"
+  "main": "app.js",
+  "dependencies": {
+    "homey-api": "^3.20.0"
+  }
 }
