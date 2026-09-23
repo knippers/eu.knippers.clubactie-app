@@ -69,6 +69,26 @@ module.exports = class LotenTellerDevice extends Homey.Device {
     }
   }
 
+  /**
+   * Zoekt de positie van de huidige verkoper binnen ranking.team of
+   * ranking.club, plus het totaal aantal verkopers (ranking.<scope>.total).
+   * position/total zijn null als ze niet in de response voorkomen.
+   */
+  findRanking(overview, scope) {
+    const ranking = overview && overview.ranking && overview.ranking[scope];
+    if (!ranking) return { position: null, total: null };
+
+    const entries = [
+      ...(Array.isArray(ranking.leaderboard) ? ranking.leaderboard : []),
+      ...Object.values(ranking.podium || {}),
+    ];
+    const me = entries.find((entry) => entry && entry.isCurrentSeller);
+    return {
+      position: me && typeof me.position === 'number' ? me.position : null,
+      total: typeof ranking.total === 'number' ? ranking.total : null,
+    };
+  }
+
   async poll() {
     try {
       const overview = await this.fetchOverview();
@@ -93,6 +113,13 @@ module.exports = class LotenTellerDevice extends Homey.Device {
           )
           .catch(this.error);
       }
+
+      const team = this.findRanking(overview, 'team');
+      const club = this.findRanking(overview, 'club');
+      await this.setStoreValue('rankingTeam', team.position).catch(this.error);
+      await this.setStoreValue('rankingTeamTotal', team.total).catch(this.error);
+      await this.setStoreValue('rankingClub', club.position).catch(this.error);
+      await this.setStoreValue('rankingClubTotal', club.total).catch(this.error);
 
       await this.setAvailable().catch(this.error);
     } catch (err) {

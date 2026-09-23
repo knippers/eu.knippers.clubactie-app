@@ -74,6 +74,10 @@ module.exports = class ClubactieApp extends Homey.App {
       verkocht: device.getCapabilityValue('loten_verkocht') || 0,
       doel: device.getCapabilityValue('loten_doel') || 0,
       percentage: device.getCapabilityValue('loten_percentage') || 0,
+      rankingTeam: device.getStoreValue('rankingTeam') ?? null,
+      rankingTeamTotal: device.getStoreValue('rankingTeamTotal') ?? null,
+      rankingClub: device.getStoreValue('rankingClub') ?? null,
+      rankingClubTotal: device.getStoreValue('rankingClubTotal') ?? null,
     };
   }
 

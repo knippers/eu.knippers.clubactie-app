@@ -38,6 +38,9 @@
       font-size: 16px;
       color: var(--homey-text-color-light, #888);
     }
+    .info .ranking {
+      margin-top: 2px;
+    }
     .empty {
       font-size: 16px;
       color: var(--homey-text-color-light, #888);
@@ -95,13 +98,21 @@
           return;
         }
 
-        const { naam, verkocht, doel, percentage } = data;
+        const {
+          naam, verkocht, doel, percentage,
+          rankingTeam, rankingTeamTotal, rankingClub, rankingClubTotal,
+        } = data;
+        const pos = (p, total) => {
+          if (typeof p !== 'number') return '–';
+          return typeof total === 'number' ? `#${p} ${labels.of} ${total}` : `#${p}`;
+        };
 
         contentEl.innerHTML = `
           ${drawGauge(percentage)}
           <div class="info">
             <div class="name">${naam}</div>
             <div class="stats">${verkocht} / ${doel} ${labels.tickets}</div>
+            <div class="stats ranking">${labels.team} ${pos(rankingTeam, rankingTeamTotal)} · ${labels.club} ${pos(rankingClub, rankingClubTotal)}</div>
           </div>
         `;
         setTimeout(render, 60 * 1000);
@@ -117,6 +128,9 @@
         no_device: homey.__('widget.no_device'),
         tickets: homey.__('widget.tickets'),
         error: homey.__('widget.error'),
+        team: homey.__('widget.ranking_team'),
+        club: homey.__('widget.ranking_club'),
+        of: homey.__('widget.ranking_of'),
       };
 
       const deviceIds = homey.getDeviceIds();

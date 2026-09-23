@@ -11,7 +11,10 @@
   "widget": {
     "no_device": "Nog geen Loten Teller apparaat gevonden",
     "tickets": "loten",
-    "error": "Kon gegevens niet laden"
+    "error": "Kon gegevens niet laden",
+    "ranking_team": "Team",
+    "ranking_club": "Club",
+    "ranking_of": "van"
   },
   "settings": {
     "title": "Grote Clubactie - Loten Teller",
