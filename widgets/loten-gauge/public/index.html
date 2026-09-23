@@ -104,7 +104,7 @@
         } = data;
         const pos = (p, total) => {
           if (typeof p !== 'number') return '–';
-          return typeof total === 'number' ? `#${p} ${labels.of} ${total}` : `#${p}`;
+          return typeof total === 'number' ? `<b>#${p}</b> ${labels.of} ${total}` : `<b>#${p}</b>`;
         };
 
         contentEl.innerHTML = `
@@ -112,7 +112,7 @@
           <div class="info">
             <div class="name">${naam}</div>
             <div class="stats">${verkocht} / ${doel} ${labels.tickets}</div>
-            <div class="stats ranking">${labels.team} ${pos(rankingTeam, rankingTeamTotal)} · ${labels.club} ${pos(rankingClub, rankingClubTotal)}</div>
+            <div class="stats ranking">${labels.team} ${pos(rankingTeam, rankingTeamTotal)} <br /> ${labels.club} ${pos(rankingClub, rankingClubTotal)}</div>
           </div>
         `;
         setTimeout(render, 60 * 1000);
